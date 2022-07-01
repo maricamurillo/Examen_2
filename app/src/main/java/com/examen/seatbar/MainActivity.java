@@ -2,10 +2,17 @@ package com.examen.seatbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.examen.seatbar.Adapter.RecyclerAdapter;
+import com.examen.seatbar.Modelo.Mesa;
 
 import java.util.ArrayList;
 
@@ -16,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
             btnCancel;
     boolean isButtonActive = false;
     Button btnSelected;
+    private RecyclerView mrMesas;
+    private ArrayList<Mesa> mesas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         btnMesa8 = findViewById(R.id.btn_mesa8);
 
         btnCancel = findViewById(R.id.btn_cancel);
+
+        mesas = new ArrayList<>();
+        agregarMesas();
+
+        mrMesas = findViewById(R.id.rvMesas);
+        RecyclerAdapter adapter = new RecyclerAdapter(mesas);
+        LinearLayoutManager lm = new LinearLayoutManager(getApplicationContext());
+        mrMesas.setLayoutManager(lm);
+        mrMesas.setItemAnimator(new DefaultItemAnimator());
+        mrMesas.setAdapter(adapter);
+        mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
         actions();
     }
 
@@ -106,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     private void cancelarEspera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         AlertDialog dialog = builder.setTitle("Se cancelará su mesa" )
@@ -144,5 +164,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void  agregarMesas(){
+        mesas.add(new Mesa(1,false));
+        mesas.add(new Mesa(2,false));
+        mesas.add(new Mesa(3,false));
+        mesas.add(new Mesa(4,false));
+    }
 
 }

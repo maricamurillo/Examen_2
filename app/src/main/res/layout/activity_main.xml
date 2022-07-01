@@ -11,14 +11,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
         android:gravity="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:text="Seleccione la mesa"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Pila"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.883"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,12 +42,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="28dp"
+        android:layout_marginTop="12dp"
         android:columnCount="2"
         android:gravity="center_horizontal"
 
+        android:padding="28dp"
         android:rowCount="4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_title"
         tools:context=".MainActivity">
@@ -44,8 +62,7 @@
             android:background="@drawable/circle_green"
             android:text="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff"
-          />
+            android:textColor="#ffffff" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_mesa2"
@@ -95,18 +112,18 @@
             android:background="@drawable/circle_green"
             android:text="6"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff"
- />
+            android:textColor="#ffffff" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_mesa7"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_margin="12dp"
             android:background="@drawable/circle_green"
             android:text="7"
-            android:layout_margin="12dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#ffffff" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_mesa8"
             android:layout_width="70dp"
@@ -123,10 +140,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Cancelar"
         android:backgroundTint="#FF9800"
+        android:text="Cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:layout_width="164dp"
+        android:layout_height="761dp"
+        android:layout_marginStart="246dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="57dp"
+        tools:ignore="MissingConstraints">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvMesas"
+            />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

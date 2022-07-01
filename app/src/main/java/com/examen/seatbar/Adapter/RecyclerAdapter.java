@@ -31,8 +31,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
         Integer mesa =fifo.get(position).getNumero();
         Boolean atendido =fifo.get(position).isAtendido();
-        holder.tmesa.setText("kkkk");
-        holder.tatendido.setText("kkkk");
+        holder.tmesa.setText(mesa.toString());
+        holder.tatendido.setText(atendido?"si":"no");
     }
 
     @Override

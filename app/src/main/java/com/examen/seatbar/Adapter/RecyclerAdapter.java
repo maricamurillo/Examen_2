@@ -3,6 +3,7 @@ package com.examen.seatbar.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View iteView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mesa,parent,false);
         return new MyViewHolder(iteView);
     }
@@ -32,7 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         Integer mesa =fifo.get(position).getNumero();
         Boolean atendido =fifo.get(position).isAtendido();
         holder.tmesa.setText(mesa.toString());
-        holder.tatendido.setText(atendido?"si":"no");
+        holder.tatendido.setText(atendido?"Sí":"No");
     }
 
     @Override

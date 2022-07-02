@@ -47,13 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
         mrMesas = findViewById(R.id.rvMesas);
         RecyclerAdapter adapter = new RecyclerAdapter(mesas);
-        LinearLayoutManager lm = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
-        mrMesas.setItemAnimator(new DefaultItemAnimator());
+        //mrMesas.setItemAnimator(new DefaultItemAnimator());
         mrMesas.setAdapter(adapter);
-        mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        //mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         actions();
+
+        System.out.println(mesas.size() + "Aqui estoy");
     }
 
     private void actions(){

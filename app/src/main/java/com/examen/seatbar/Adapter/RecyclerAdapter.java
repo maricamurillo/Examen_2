@@ -42,6 +42,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     public class MyViewHolder extends  RecyclerView.ViewHolder{
+    public void mostrar(int pos ){
+
+
+    }
+    public class MyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView tmesa;
         private TextView tatendido;
 

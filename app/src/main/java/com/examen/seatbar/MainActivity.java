@@ -1,5 +1,6 @@
 package com.examen.seatbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -12,7 +13,11 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.examen.seatbar.Adapter.RecyclerAdapter;
+import com.examen.seatbar.DataBase.DAOMesa;
 import com.examen.seatbar.Modelo.Mesa;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,12 +29,17 @@ public class MainActivity extends AppCompatActivity {
     boolean isButtonActive = false;
     Button btnSelected;
     private RecyclerView mrMesas;
-    private ArrayList<Mesa> mesas;
+    //private ArrayList<Mesa> mesas;
+    DAOMesa dao;
+    RecyclerAdapter adapter;
+    Boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dao = new DAOMesa();
 
         btnMesa1 = findViewById(R.id.btn_mesa1);
         btnMesa2 = findViewById(R.id.btn_mesa2);
@@ -42,20 +52,44 @@ public class MainActivity extends AppCompatActivity {
 
         btnCancel = findViewById(R.id.btn_cancel);
 
-        mesas = new ArrayList<>();
-        agregarMesas();
+        //mesas = new ArrayList<>();
+        //agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        RecyclerAdapter adapter = new RecyclerAdapter(mesas);
+        //RecyclerAdapter adapter = new RecyclerAdapter(mesas);
+        adapter = new RecyclerAdapter(this);
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
         //mrMesas.setItemAnimator(new DefaultItemAnimator());
         mrMesas.setAdapter(adapter);
         //mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        
+        loadData();
 
         actions();
 
-        System.out.println(mesas.size() + "Aqui estoy");
+    }
+
+    private void loadData() {
+        dao.get().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                ArrayList<Mesa> m = new ArrayList<>();
+                for(DataSnapshot data : snapshot.getChildren()){
+                    Mesa mesa = data.getValue(Mesa.class);
+                    m.add(mesa);
+                }
+                adapter.setItems(m);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void actions(){
@@ -166,11 +200,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void  agregarMesas(){
+    /*private void  agregarMesas(){
         mesas.add(new Mesa(1,false));
         mesas.add(new Mesa(2,false));
         mesas.add(new Mesa(3,false));
         mesas.add(new Mesa(4,false));
-    }
+    }*/
 
 }

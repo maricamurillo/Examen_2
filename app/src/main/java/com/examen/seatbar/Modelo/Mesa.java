@@ -4,6 +4,8 @@ public class Mesa {
      Integer numero;
      boolean atendido;
 
+     public  Mesa(){}
+
      public Mesa(Integer numero, boolean atendido) {
           this.numero = numero;
           this.atendido = atendido;

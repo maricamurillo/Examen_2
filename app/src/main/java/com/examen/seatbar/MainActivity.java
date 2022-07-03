@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelected;
     private RecyclerView mrMesas;
     private ArrayList<Mesa> mesas;
-
+    private RecyclerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        RecyclerAdapter adapter = new RecyclerAdapter(mesas);
+        adapter = new RecyclerAdapter(mesas);
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
         //mrMesas.setItemAnimator(new DefaultItemAnimator());
@@ -60,34 +60,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void actions(){
         btnMesa1.setOnClickListener(view ->  {
-            setState((Button)view,"1");
+            setState((Button)view,1);
         });
 
         btnMesa2.setOnClickListener(view -> {
-            setState((Button)view,"2");
+            setState((Button)view,2);
         });
         btnMesa3.setOnClickListener(view ->  {
-            setState((Button)view,"3");
+            setState((Button)view,3);
         });
 
         btnMesa4.setOnClickListener(view -> {
-            setState((Button)view,"4");
+            setState((Button)view,4);
         });
 
         btnMesa5.setOnClickListener(view ->  {
-            setState((Button)view,"5");
+            setState((Button)view,5);
         });
 
         btnMesa6.setOnClickListener(view ->  {
-            setState((Button)view,"6");
+            setState((Button)view,6);
         });
 
         btnMesa7.setOnClickListener(view ->  {
-            setState((Button)view,"7");
+            setState((Button)view,7);
         });
 
         btnMesa8.setOnClickListener(view -> {
-            setState((Button)view,"8");
+            setState((Button)view,8);
         });
 
         btnCancel.setOnClickListener(view -> {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Cambiar estado de un botón al ser presionado
-    private void setState(Button btn, String number){
+    private void setState(Button btn, Integer number){
         //Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
         if(!isButtonActive){
             if(btn.isEnabled()){
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 btn.setBackgroundResource(R.drawable.circle_gray);
                 isButtonActive = true;
                 mostrarAlerta(number);
+                agregarMesaCola(number);
                 btnSelected = btn;
             }else{
                 btn.setBackgroundResource(R.drawable.circle_green);
@@ -116,8 +117,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    private void agregarMesaCola(Integer numero) {
+        //obtener la mesa de DB
+        Mesa mesa =getmesadb(numero);
+        // cambiar el estado
+        mesa.setAtendido(false);
+        // esta linea se cambiar con el metodo que jala el array de la DB
+        mesas.add(mesa);
+        adapter.notifyDataSetChanged();
+    }
 
-    private void mostrarAlerta(String numero) {
+    private void mostrarAlerta(Integer numero) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         AlertDialog dialog = builder.setTitle("Será atendido en la mesa " + numero )
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

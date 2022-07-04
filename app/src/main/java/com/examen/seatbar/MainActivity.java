@@ -1,6 +1,5 @@
 package com.examen.seatbar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -14,11 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.examen.seatbar.Adapter.RecyclerAdapter;
-import com.examen.seatbar.DataBase.DAOMesa;
 import com.examen.seatbar.Modelo.Mesa;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -31,19 +26,13 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelected;
     Mesa mesaSelected;
     private RecyclerView mrMesas;
-
-    //private ArrayList<Mesa> mesas;
-    DAOMesa dao;
-    RecyclerAdapter adapter;
-    Boolean isLoading = false;
-
-
+    private ArrayList<Mesa> mesas;
+    private RecyclerAdapter adapter;
+    private ArrayList<Button> botones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        dao = new DAOMesa();
 
         btnMesa1 = findViewById(R.id.btn_mesa1);
         btnMesa2 = findViewById(R.id.btn_mesa2);
@@ -55,25 +44,24 @@ public class MainActivity extends AppCompatActivity {
         btnMesa8 = findViewById(R.id.btn_mesa8);
         btnCancel = findViewById(R.id.btn_cancel);
 
-
-        //mesas = new ArrayList<>();
-        //agregarMesas();
+        mesas = new ArrayList<>();
+        botones= new ArrayList<>();
+        agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        //RecyclerAdapter adapter = new RecyclerAdapter(mesas);
-        adapter = new RecyclerAdapter(this);
-
+        adapter = new RecyclerAdapter(mesas){
+            @Override
+            public void eliminarMesa(View v,Integer layoutPosition) {
+                eliminar_Mesa(v,layoutPosition);
+            }
+        };
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
         //mrMesas.setItemAnimator(new DefaultItemAnimator());
         mrMesas.setAdapter(adapter);
         //mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        
-        loadData();
 
         actions();
-
-
     }
 
     private void loadData() {
@@ -97,9 +85,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-    }
+        botones.add(btnMesa1);
+        botones.add(btnMesa2);
+        botones.add(btnMesa3);
+        botones.add(btnMesa4);
+        botones.add(btnMesa5);
+        botones.add(btnMesa6);
+        botones.add(btnMesa7);
+        botones.add(btnMesa8);
+        System.out.println(mesas.size() + "Aqui estoy");
 
     private void actions(){
         btnMesa1.setOnClickListener(view ->  {
@@ -226,13 +220,30 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void eliminar_Mesa (View v,Integer numero) {
+        if(numero>0)
+        {
+            mostrarAlertaNomesa1(mesas.get(0).getNumero());
+        }
+        else{
+           //obtener boton de la besa por atender
+            Mesa m = mesas.remove((int)numero);
+            mesas.remove(m);
 
-    /*private void  agregarMesas(){
+            Button button = botones.get(m.getNumero()-1);
+            button.setEnabled(true);
+            button.setBackgroundResource(R.drawable.circle_green);
+
+            adapter.notifyDataSetChanged();
+            isButtonActive = button.getId() == btnSelected.getId()?false:true;
+            }
+    }
+
+    private void  agregarMesas(){
         mesas.add(new Mesa(1,false));
-        mesas.add(new Mesa(2,false));
-        mesas.add(new Mesa(3,false));
-        mesas.add(new Mesa(4,false));
-    }*/
-
+       // mesas.add(new Mesa(2,false));
+        //mesas.add(new Mesa(3,false));
+        //mesas.add(new Mesa(4,false));
+    }
 
 }

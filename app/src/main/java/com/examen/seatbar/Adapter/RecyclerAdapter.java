@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,14 +56,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return listaMesas.size();
     }
 
-    public class MyViewHolder extends  RecyclerView.ViewHolder{
+    public void eliminarMesa(View v,Integer layoutPosition){
+    }
+
+    public class MyViewHolder extends  RecyclerView.ViewHolder {
         private TextView tmesa;
         private TextView tatendido;
+        private Button atender;
 
         public MyViewHolder(@NonNull View itemView)  {
             super(itemView);
             tmesa = itemView.findViewById(R.id.tmesa);
             tatendido = itemView.findViewById(R.id.tatendido);
+            atender = itemView.findViewById(R.id.atender);
+            atender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eliminarMesa(v,getLayoutPosition());
+                }
+            });
         }
     }
 }

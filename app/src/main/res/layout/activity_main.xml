@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="Mesa por atender"
+        android:text="Mesas por atender"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -140,15 +140,15 @@
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#FF9800"
         android:text="Cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -157,11 +157,23 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_title2"
         tools:ignore="MissingConstraints">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMesas"
-            android:layout_width="wrap_content"
-            android:layout_height="650dp"
-            tools:listitem="@layout/item_mesa" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                android:id="@+id/container"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMesas"
+                    android:layout_width="194dp"
+                    android:layout_height="650dp"
+                    tools:listitem="@layout/item_mesa" />
+            </LinearLayout>
+        </ScrollView>
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

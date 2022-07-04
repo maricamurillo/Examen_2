@@ -1,6 +1,5 @@
 package com.examen.seatbar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -14,36 +13,26 @@ import android.view.View;
 import android.widget.Button;
 
 import com.examen.seatbar.Adapter.RecyclerAdapter;
-import com.examen.seatbar.DataBase.DAOMesa;
 import com.examen.seatbar.Modelo.Mesa;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    Button btnMesa1, btnMesa2, btnMesa3, btnMesa4,btnMesa5,btnMesa6,btnMesa7,btnMesa8,
+    Button btnMesa1, btnMesa2, btnMesa3, btnMesa4, btnMesa5, btnMesa6, btnMesa7, btnMesa8,
             btnCancel;
     boolean isButtonActive = false;
     Button btnSelected;
     Mesa mesaSelected;
     private RecyclerView mrMesas;
-
-    //private ArrayList<Mesa> mesas;
-    DAOMesa dao;
-    RecyclerAdapter adapter;
-    Boolean isLoading = false;
-
+    private ArrayList<Mesa> mesas;
+    private RecyclerAdapter adapter;
+    private ArrayList<Button> botones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        dao = new DAOMesa();
 
         btnMesa1 = findViewById(R.id.btn_mesa1);
         btnMesa2 = findViewById(R.id.btn_mesa2);
@@ -55,24 +44,25 @@ public class MainActivity extends AppCompatActivity {
         btnMesa8 = findViewById(R.id.btn_mesa8);
         btnCancel = findViewById(R.id.btn_cancel);
 
-
-        //mesas = new ArrayList<>();
-        //agregarMesas();
+        mesas = new ArrayList<>();
+        botones = new ArrayList<>();
+        agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        //RecyclerAdapter adapter = new RecyclerAdapter(mesas);
-        adapter = new RecyclerAdapter(this);
-
+        adapter = new RecyclerAdapter(mesas) {
+            @Override
+            public void eliminarMesa(View v, Integer layoutPosition) {
+                eliminar_Mesa(v, layoutPosition);
+            }
+        };
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
-        //mrMesas.setItemAnimator(new DefaultItemAnimator());
+        // mrMesas.setItemAnimator(new DefaultItemAnimator());
         mrMesas.setAdapter(adapter);
-        //mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        
-        loadData();
+        // mrMesas.addItemDecoration(new
+        // DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         actions();
-
 
     }
 
@@ -82,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 ArrayList<Mesa> m = new ArrayList<>();
-                for(DataSnapshot data : snapshot.getChildren()){
+                for (DataSnapshot data : snapshot.getChildren()) {
                     Mesa mesa = data.getValue(Mesa.class);
                     m.add(mesa);
                 }
@@ -97,82 +87,75 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
+        botones.add(btnMesa1);
+        botones.add(btnMesa2);
+        botones.add(btnMesa3);
+        botones.add(btnMesa4);
+        botones.add(btnMesa5);
+        botones.add(btnMesa6);
+        botones.add(btnMesa7);
+        botones.add(btnMesa8);
+        System.out.println(mesas.size() + "Aqui estoy");
     }
 
-    private void actions(){
-        btnMesa1.setOnClickListener(view ->  {
-            setState((Button)view,1);
+    private void actions() {
+        btnMesa1.setOnClickListener(view -> {
+            setState((Button) view, 1);
         });
 
         btnMesa2.setOnClickListener(view -> {
-            setState((Button)view,2);
+            setState((Button) view, 2);
         });
-        btnMesa3.setOnClickListener(view ->  {
-            setState((Button)view,3);
+        btnMesa3.setOnClickListener(view -> {
+            setState((Button) view, 3);
         });
 
         btnMesa4.setOnClickListener(view -> {
-            setState((Button)view,4);
+            setState((Button) view, 4);
         });
 
-        btnMesa5.setOnClickListener(view ->  {
-            setState((Button)view,5);
+        btnMesa5.setOnClickListener(view -> {
+            setState((Button) view, 5);
         });
 
-        btnMesa6.setOnClickListener(view ->  {
-            setState((Button)view,6);
+        btnMesa6.setOnClickListener(view -> {
+            setState((Button) view, 6);
         });
 
-        btnMesa7.setOnClickListener(view ->  {
-            setState((Button)view,7);
+        btnMesa7.setOnClickListener(view -> {
+            setState((Button) view, 7);
         });
 
         btnMesa8.setOnClickListener(view -> {
-            setState((Button)view,8);
+            setState((Button) view, 8);
         });
 
         btnCancel.setOnClickListener(view -> {
-            if(isButtonActive){
+            if (isButtonActive) {
                 cancelarEspera();
-            }else{
+            } else {
                 mostrarNoSeleccionado();
             }
 
         });
     }
 
-    //Cambiar estado de un botón al ser presionado
-    private void setState(Button btn, Integer number){
-        //Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
-        if(!isButtonActive){
-            if(btn.isEnabled()){
+    // Cambiar estado de un botón al ser presionado
+    private void setState(Button btn, Integer number) {
+        // Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
+        if (!isButtonActive) {
+            if (btn.isEnabled()) {
 
-            }else{
+            } else {
                 btn.setBackgroundResource(R.drawable.circle_green);
                 btn.setEnabled(true);
             }
         }
     }
 
-
-
     private void mostrarAlerta(Integer numero) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        AlertDialog dialog = builder.setTitle("Será atendido en la mesa " + numero )
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                      dialogInterface.dismiss();
-                    }
-                }).create();
-        dialog.show();
-    }
-
-    private void mostrarAlertaMesadupli(Integer numero) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        AlertDialog dialog = builder.setTitle("La mesa " + numero +" ya esta siendo atendia")
+        AlertDialog dialog = builder.setTitle("Será atendido en la mesa " + numero)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -181,21 +164,34 @@ public class MainActivity extends AppCompatActivity {
                 }).create();
         dialog.show();
     }
+
+    private void mostrarAlertaMesadupli(Integer numero) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog dialog = builder.setTitle("La mesa " + numero + " ya esta siendo atendia")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
+        dialog.show();
+    }
+
     private void mostrarAlertaNomesa1(Integer numero) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        AlertDialog dialog = builder.setTitle("La mesa " + numero +" tiene que ser atendia primero")
+        AlertDialog dialog = builder.setTitle("La mesa " + numero + " tiene que ser atendia primero")
                 .create();
         dialog.show();
     }
 
     private void cancelarEspera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        AlertDialog dialog = builder.setTitle("Se cancelará su mesa" )
+        AlertDialog dialog = builder.setTitle("Se cancelará su mesa")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //Quita el boton seleccionado
-                        if(btnSelected != null){
+                        // Quita el boton seleccionado
+                        if (btnSelected != null) {
                             btnSelected.setEnabled(true);
                             btnSelected.setBackgroundResource(R.drawable.circle_green);
                             adapter.notifyDataSetChanged();
@@ -209,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
-        }).create();
+                }).create();
 
         dialog.show();
     }
@@ -226,13 +222,28 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void eliminar_Mesa(View v, Integer numero) {
+        if (numero > 0) {
+            mostrarAlertaNomesa1(mesas.get(0).getNumero());
+        } else {
+            // obtener boton de la besa por atender
+            Mesa m = mesas.remove((int) numero);
+            mesas.remove(m);
 
-    /*private void  agregarMesas(){
-        mesas.add(new Mesa(1,false));
-        mesas.add(new Mesa(2,false));
-        mesas.add(new Mesa(3,false));
-        mesas.add(new Mesa(4,false));
-    }*/
+            Button button = botones.get(m.getNumero() - 1);
+            button.setEnabled(true);
+            button.setBackgroundResource(R.drawable.circle_green);
 
+            adapter.notifyDataSetChanged();
+            isButtonActive = button.getId() == btnSelected.getId() ? false : true;
+        }
+    }
+
+    private void agregarMesas() {
+        mesas.add(new Mesa(1, false));
+        // mesas.add(new Mesa(2,false));
+        // mesas.add(new Mesa(3,false));
+        // mesas.add(new Mesa(4,false));
+    }
 
 }

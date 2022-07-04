@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "397351333781",
+    "project_id": "examen2bar",
+    "storage_bucket": "examen2bar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397351333781:android:dc9f0fbf37437bb852909c",
+        "android_client_info": {
+          "package_name": "com.examen.seatbar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397351333781-rlpc7t7538rcpf9fqlum8sm0meoocr45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.examen.seatbar",
+            "certificate_hash": "0767c3affa5bbbcad3045efc866277dbb749e5f8"
+          }
+        },
+        {
+          "client_id": "397351333781-27j8pduvaq45u2e22oihtsl51roc5gnv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiEnFUUS-EitLBt9Cn8pWFFbGi8Zuhewk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397351333781-27j8pduvaq45u2e22oihtsl51roc5gnv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

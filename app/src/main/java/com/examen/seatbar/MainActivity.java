@@ -1,5 +1,6 @@
 package com.examen.seatbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -13,7 +14,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.examen.seatbar.Adapter.RecyclerAdapter;
+import com.examen.seatbar.DataBase.DAOMesa;
 import com.examen.seatbar.Modelo.Mesa;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
     Mesa mesaSelected;
     private RecyclerView mrMesas;
     private ArrayList<Mesa> mesas;
+    private ArrayList<Mesa> mesasDB;
     private RecyclerAdapter adapter;
     private ArrayList<Button> botones;
+    DAOMesa dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dao= new DAOMesa();
 
         btnMesa1 = findViewById(R.id.btn_mesa1);
         btnMesa2 = findViewById(R.id.btn_mesa2);
@@ -55,37 +63,13 @@ public class MainActivity extends AppCompatActivity {
                 eliminar_Mesa(v, layoutPosition);
             }
         };
+        //adapter.setItems(mesas);
+        //adapter.notifyDataSetChanged();
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
-        // mrMesas.setItemAnimator(new DefaultItemAnimator());
         mrMesas.setAdapter(adapter);
-        // mrMesas.addItemDecoration(new
-        // DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-
+        loadData();
         actions();
-
-    }
-
-    private void loadData() {
-        dao.get().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                ArrayList<Mesa> m = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Mesa mesa = data.getValue(Mesa.class);
-                    m.add(mesa);
-                }
-                adapter.setItems(m);
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         botones.add(btnMesa1);
         botones.add(btnMesa2);
@@ -95,7 +79,30 @@ public class MainActivity extends AppCompatActivity {
         botones.add(btnMesa6);
         botones.add(btnMesa7);
         botones.add(btnMesa8);
-        System.out.println(mesas.size() + "Aqui estoy");
+
+    }
+
+    private void loadData() {
+        dao.get().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                mesasDB = new ArrayList<>();//datos de DB
+                for (DataSnapshot data : snapshot.getChildren()) {
+                   Mesa mesa = data.getValue(Mesa.class);
+                    mesasDB.add(mesa); //
+               }
+                // adapter.setItems(m);
+                // adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void actions() {
@@ -145,12 +152,34 @@ public class MainActivity extends AppCompatActivity {
         // Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
         if (!isButtonActive) {
             if (btn.isEnabled()) {
-
+                agregarMesaCola(btn,number);
             } else {
                 btn.setBackgroundResource(R.drawable.circle_green);
                 btn.setEnabled(true);
             }
         }
+    }
+
+    private void agregarMesaCola(Button btn,Integer numero) {
+        //obtener la mesa de DB
+        int i = mesasDB.indexOf(new Mesa(numero, false));
+        Mesa mesa = mesasDB.get(i);
+        // cambiar el estado en la DB actualizar
+        // esta linea se cambiar con el metodo que jala el array de la DB
+        if(mesas.contains(mesa)==false){
+            mesas.add(mesa);
+            btn.setEnabled(false);
+            btn.setBackgroundResource(R.drawable.circle_gray);
+            isButtonActive = true;
+            btnSelected = btn;
+            mostrarAlerta(numero);
+        }
+        else{
+            mostrarAlertaMesadupli(numero);
+        }
+        adapter.notifyDataSetChanged();
+        mrMesas.scrollToPosition(mesas.size()-1);
+        mesaSelected = mesa;
     }
 
     private void mostrarAlerta(Integer numero) {

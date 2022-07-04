@@ -1,5 +1,6 @@
 package com.examen.seatbar.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import com.examen.seatbar.R;
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
-    private ArrayList<Mesa> fifo;
+    private ArrayList<Mesa> listaMesas = new ArrayList<>();
 
     public RecyclerAdapter(ArrayList<Mesa> fifo) {
-        this.fifo = fifo;
+        this.listaMesas = fifo;
+    }
+    public void setItems(ArrayList<Mesa> m){
+        listaMesas.addAll(m);
     }
 
     @NonNull
@@ -31,15 +35,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
-        Integer mesa =fifo.get(position).getNumero();
-        Boolean atendido =fifo.get(position).isAtendido();
+        Integer mesa =listaMesas.get(position).getNumero();
+        Boolean atendido =listaMesas.get(position).isAtendido();
         holder.tmesa.setText(mesa.toString());
         holder.tatendido.setText(atendido?"Sí":"No");
     }
 
     @Override
     public int getItemCount() {
-         return fifo.size();
+         return listaMesas.size();
     }
 
     public void eliminarMesa(View v,Integer layoutPosition){

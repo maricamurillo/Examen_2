@@ -97,15 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        botones.add(btnMesa1);
-        botones.add(btnMesa2);
-        botones.add(btnMesa3);
-        botones.add(btnMesa4);
-        botones.add(btnMesa5);
-        botones.add(btnMesa6);
-        botones.add(btnMesa7);
-        botones.add(btnMesa8);
-        System.out.println(mesas.size() + "Aqui estoy");
+
 
     }
 
@@ -156,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         //Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
         if(!isButtonActive){
             if(btn.isEnabled()){
-                agregarMesaCola(btn,number);
+
             }else{
                 btn.setBackgroundResource(R.drawable.circle_green);
                 btn.setEnabled(true);
@@ -164,26 +156,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void agregarMesaCola(Button btn,Integer numero) {
-        //obtener la mesa de DB
-        Mesa mesa = new Mesa(numero,false);
-        // cambiar el estado en la DB actualizar
-        // esta linea se cambiar con el metodo que jala el array de la DB
-        if(mesas.contains(mesa)==false){
-            mesas.add(mesa);
-            btn.setEnabled(false);
-            btn.setBackgroundResource(R.drawable.circle_gray);
-            isButtonActive = true;
-            btnSelected = btn;
-            mostrarAlerta(numero);
-        }
-        else{
-            mostrarAlertaMesadupli(numero);
-        }
-        adapter.notifyDataSetChanged();
-        mrMesas.scrollToPosition(mesas.size()-1);
-        mesaSelected = mesa;
-    }
+
 
     private void mostrarAlerta(Integer numero) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -225,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
                         if(btnSelected != null){
                             btnSelected.setEnabled(true);
                             btnSelected.setBackgroundResource(R.drawable.circle_green);
-                            mesas.remove(mesaSelected);
                             adapter.notifyDataSetChanged();
                         }
                         isButtonActive = false;

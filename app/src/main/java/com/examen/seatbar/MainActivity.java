@@ -98,6 +98,26 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(mesas.size() + "Aqui estoy");
     }
 
+    private void agregarMesaCola(Button btn, Integer numero) {
+        // obtener la mesa de DB
+        Mesa mesa = new Mesa(numero, false);
+        // cambiar el estado en la DB actualizar
+        // esta linea se cambiar con el metodo que jala el array de la DB
+        if (mesas.contains(mesa) == false) {
+            mesas.add(mesa);
+            btn.setEnabled(false);
+            btn.setBackgroundResource(R.drawable.circle_gray);
+            isButtonActive = true;
+            btnSelected = btn;
+            mostrarAlerta(numero);
+        } else {
+            mostrarAlertaMesadupli(numero);
+        }
+        adapter.notifyDataSetChanged();
+        mrMesas.scrollToPosition(mesas.size() - 1);
+        mesaSelected = mesa;
+    }
+
     private void actions() {
         btnMesa1.setOnClickListener(view -> {
             setState((Button) view, 1);

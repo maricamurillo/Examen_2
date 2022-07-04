@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.examen.seatbar.Adapter.RecyclerAdapter;
@@ -23,9 +24,11 @@ public class MainActivity extends AppCompatActivity {
             btnCancel;
     boolean isButtonActive = false;
     Button btnSelected;
+    Mesa mesaSelected;
     private RecyclerView mrMesas;
     private ArrayList<Mesa> mesas;
     private RecyclerAdapter adapter;
+    private ArrayList<Button> botones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +42,19 @@ public class MainActivity extends AppCompatActivity {
         btnMesa6 = findViewById(R.id.btn_mesa6);
         btnMesa7 = findViewById(R.id.btn_mesa7);
         btnMesa8 = findViewById(R.id.btn_mesa8);
-
         btnCancel = findViewById(R.id.btn_cancel);
 
         mesas = new ArrayList<>();
+        botones= new ArrayList<>();
         agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        adapter = new RecyclerAdapter(mesas);
+        adapter = new RecyclerAdapter(mesas){
+            @Override
+            public void eliminarMesa(View v,Integer layoutPosition) {
+                eliminar_Mesa(v,layoutPosition);
+            }
+        };
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mrMesas.setLayoutManager(lm);
         //mrMesas.setItemAnimator(new DefaultItemAnimator());
@@ -54,7 +62,14 @@ public class MainActivity extends AppCompatActivity {
         //mrMesas.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         actions();
-
+        botones.add(btnMesa1);
+        botones.add(btnMesa2);
+        botones.add(btnMesa3);
+        botones.add(btnMesa4);
+        botones.add(btnMesa5);
+        botones.add(btnMesa6);
+        botones.add(btnMesa7);
+        botones.add(btnMesa8);
         System.out.println(mesas.size() + "Aqui estoy");
     }
 
@@ -105,26 +120,33 @@ public class MainActivity extends AppCompatActivity {
         //Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
         if(!isButtonActive){
             if(btn.isEnabled()){
-                btn.setEnabled(false);
-                btn.setBackgroundResource(R.drawable.circle_gray);
-                isButtonActive = true;
-                mostrarAlerta(number);
-                agregarMesaCola(number);
-                btnSelected = btn;
+                agregarMesaCola(btn,number);
             }else{
                 btn.setBackgroundResource(R.drawable.circle_green);
                 btn.setEnabled(true);
             }
         }
     }
-    private void agregarMesaCola(Integer numero) {
+
+    private void agregarMesaCola(Button btn,Integer numero) {
         //obtener la mesa de DB
-        Mesa mesa =getmesadb(numero);
-        // cambiar el estado
-        mesa.setAtendido(false);
+        Mesa mesa = new Mesa(numero,false);
+        // cambiar el estado en la DB actualizar
         // esta linea se cambiar con el metodo que jala el array de la DB
-        mesas.add(mesa);
+        if(mesas.contains(mesa)==false){
+            mesas.add(mesa);
+            btn.setEnabled(false);
+            btn.setBackgroundResource(R.drawable.circle_gray);
+            isButtonActive = true;
+            btnSelected = btn;
+            mostrarAlerta(numero);
+        }
+        else{
+            mostrarAlertaMesadupli(numero);
+        }
         adapter.notifyDataSetChanged();
+        mrMesas.scrollToPosition(mesas.size()-1);
+        mesaSelected = mesa;
     }
 
     private void mostrarAlerta(Integer numero) {
@@ -139,6 +161,24 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void mostrarAlertaMesadupli(Integer numero) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog dialog = builder.setTitle("La mesa " + numero +" ya esta siendo atendia")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
+        dialog.show();
+    }
+    private void mostrarAlertaNomesa1(Integer numero) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog dialog = builder.setTitle("La mesa " + numero +" tiene que ser atendia primero")
+                .create();
+        dialog.show();
+    }
+
     private void cancelarEspera() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         AlertDialog dialog = builder.setTitle("Se cancelará su mesa" )
@@ -149,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
                         if(btnSelected != null){
                             btnSelected.setEnabled(true);
                             btnSelected.setBackgroundResource(R.drawable.circle_green);
+                            mesas.remove(mesaSelected);
+                            adapter.notifyDataSetChanged();
                         }
                         isButtonActive = false;
                         dialogInterface.dismiss();
@@ -176,11 +218,30 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void eliminar_Mesa (View v,Integer numero) {
+        if(numero>0)
+        {
+            mostrarAlertaNomesa1(mesas.get(0).getNumero());
+        }
+        else{
+           //obtener boton de la besa por atender
+            Mesa m = mesas.remove((int)numero);
+            mesas.remove(m);
+
+            Button button = botones.get(m.getNumero()-1);
+            button.setEnabled(true);
+            button.setBackgroundResource(R.drawable.circle_green);
+
+            adapter.notifyDataSetChanged();
+            isButtonActive = button.getId() == btnSelected.getId()?false:true;
+            }
+    }
+
     private void  agregarMesas(){
         mesas.add(new Mesa(1,false));
-        mesas.add(new Mesa(2,false));
-        mesas.add(new Mesa(3,false));
-        mesas.add(new Mesa(4,false));
+       // mesas.add(new Mesa(2,false));
+        //mesas.add(new Mesa(3,false));
+        //mesas.add(new Mesa(4,false));
     }
 
 }

@@ -3,8 +3,6 @@ package com.examen.seatbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSelected;
     Mesa mesaSelected;
     private RecyclerView mrMesas;
-    private ArrayList<Mesa> mesas;
+    private ArrayList<Mesa> cola;
     private ArrayList<Mesa> mesasDB;
     private RecyclerAdapter adapter;
     private ArrayList<Button> botones;
@@ -52,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
         btnMesa8 = findViewById(R.id.btn_mesa8);
         btnCancel = findViewById(R.id.btn_cancel);
 
-        mesas = new ArrayList<>();
+        cola = new ArrayList<>();
         botones = new ArrayList<>();
         agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
-        adapter = new RecyclerAdapter(mesas) {
+        adapter = new RecyclerAdapter(cola) {
             @Override
             public void eliminarMesa(View v, Integer layoutPosition) {
                 eliminar_Mesa(v, layoutPosition);
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnCancel.setOnClickListener(view -> {
-            if (isButtonActive) {
+            if (isButtonActive) { // revisar*****
                 cancelarEspera();
             } else {
                 mostrarNoSeleccionado();
@@ -150,14 +148,14 @@ public class MainActivity extends AppCompatActivity {
     // Cambiar estado de un botón al ser presionado
     private void setState(Button btn, Integer number) {
         // Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
-        if (!isButtonActive) {
+        //if (!isButtonActive) {
             if (btn.isEnabled()) {
                 agregarMesaCola(btn,number);
             } else {
                 btn.setBackgroundResource(R.drawable.circle_green);
                 btn.setEnabled(true);
             }
-        }
+        //}
     }
 
     private void agregarMesaCola(Button btn,Integer numero) {
@@ -166,11 +164,11 @@ public class MainActivity extends AppCompatActivity {
         Mesa mesa = mesasDB.get(i);
         // cambiar el estado en la DB actualizar
         // esta linea se cambiar con el metodo que jala el array de la DB
-        if(mesas.contains(mesa)==false){
-            mesas.add(mesa);
+        if(cola.contains(mesa)==false){
+            cola.add(mesa);
             btn.setEnabled(false);
             btn.setBackgroundResource(R.drawable.circle_gray);
-            isButtonActive = true;
+            //isButtonActive = true;
             btnSelected = btn;
             mostrarAlerta(numero);
         }
@@ -178,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             mostrarAlertaMesadupli(numero);
         }
         adapter.notifyDataSetChanged();
-        mrMesas.scrollToPosition(mesas.size()-1);
+        mrMesas.scrollToPosition(cola.size()-1);
         mesaSelected = mesa;
     }
 
@@ -225,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                             btnSelected.setBackgroundResource(R.drawable.circle_green);
                             adapter.notifyDataSetChanged();
                         }
-                        isButtonActive = false;
+                        //isButtonActive = false;
                         dialogInterface.dismiss();
                     }
                 })
@@ -253,23 +251,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void eliminar_Mesa(View v, Integer numero) {
         if (numero > 0) {
-            mostrarAlertaNomesa1(mesas.get(0).getNumero());
+            mostrarAlertaNomesa1(cola.get(0).getNumero());
         } else {
             // obtener boton de la besa por atender
-            Mesa m = mesas.remove((int) numero);
-            mesas.remove(m);
+            Mesa m = cola.remove((int) numero);
+            cola.remove(m);
 
             Button button = botones.get(m.getNumero() - 1);
             button.setEnabled(true);
             button.setBackgroundResource(R.drawable.circle_green);
 
             adapter.notifyDataSetChanged();
-            isButtonActive = button.getId() == btnSelected.getId() ? false : true;
+            //isButtonActive = button.getId() == btnSelected.getId() ? false : true;
         }
     }
 
     private void agregarMesas() {
-        mesas.add(new Mesa(1, false));
+        cola.add(new Mesa(6, false));
         // mesas.add(new Mesa(2,false));
         // mesas.add(new Mesa(3,false));
         // mesas.add(new Mesa(4,false));

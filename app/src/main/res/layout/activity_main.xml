@@ -45,7 +45,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
         android:columnCount="2"
-
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:rowCount="4"
@@ -55,97 +54,240 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_title"
         tools:context=".MainActivity">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa1"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa3"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar1"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa4"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa1"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa5"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="5"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa6"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="6"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa7"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="7"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar2"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_mesa8"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/circle_green"
-            android:text="8"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#ffffff" />
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa2"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa3"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar3"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa4"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="4"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar4"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa4"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa5"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="5"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar5"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa5"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa6"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar6"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa6"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa7"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="7"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar7"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa7"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_mesa8"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/circle_green"
+                android:text="8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#ffffff" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancelar8"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_red"
+
+                android:text="x"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/btn_mesa8"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </GridLayout>
-
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#FF9800"
-        android:text="Cancelar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
         android:id="@+id/frameLayout"

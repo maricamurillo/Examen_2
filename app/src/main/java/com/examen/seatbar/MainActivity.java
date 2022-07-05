@@ -22,10 +22,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnMesa1, btnMesa2, btnMesa3, btnMesa4, btnMesa5, btnMesa6, btnMesa7, btnMesa8,
-            btnCancel;
-    boolean isButtonActive = false;
-    Button btnSelected;
+    Button btnMesa1, btnMesa2, btnMesa3, btnMesa4, btnMesa5, btnMesa6, btnMesa7, btnMesa8;
+    Button btnCancelar1, btnCancelar2, btnCancelar3, btnCancelar4, btnCancelar5, btnCancelar6, btnCancelar7, btnCancelar8;
+
     Mesa mesaSelected;
     private RecyclerView mrMesas;
     private ArrayList<Mesa> cola;
@@ -48,11 +47,18 @@ public class MainActivity extends AppCompatActivity {
         btnMesa6 = findViewById(R.id.btn_mesa6);
         btnMesa7 = findViewById(R.id.btn_mesa7);
         btnMesa8 = findViewById(R.id.btn_mesa8);
-        btnCancel = findViewById(R.id.btn_cancel);
+
+        btnCancelar1 = findViewById(R.id.btn_cancelar1);
+        btnCancelar2 = findViewById(R.id.btn_cancelar2);
+        btnCancelar3 = findViewById(R.id.btn_cancelar3);
+        btnCancelar4 = findViewById(R.id.btn_cancelar4);
+        btnCancelar5 = findViewById(R.id.btn_cancelar5);
+        btnCancelar6 = findViewById(R.id.btn_cancelar6);
+        btnCancelar7 = findViewById(R.id.btn_cancelar7);
+        btnCancelar8 = findViewById(R.id.btn_cancelar8);
 
         cola = new ArrayList<>();
         botones = new ArrayList<>();
-        agregarMesas();
 
         mrMesas = findViewById(R.id.rvMesas);
         adapter = new RecyclerAdapter(cola) {
@@ -68,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         mrMesas.setAdapter(adapter);
         loadData();
         actions();
+        actionsCancelar();
 
         botones.add(btnMesa1);
         botones.add(btnMesa2);
@@ -90,9 +97,6 @@ public class MainActivity extends AppCompatActivity {
                    Mesa mesa = data.getValue(Mesa.class);
                     mesasDB.add(mesa); //
                }
-                // adapter.setItems(m);
-                // adapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -135,27 +139,58 @@ public class MainActivity extends AppCompatActivity {
             setState((Button) view, 8);
         });
 
-        btnCancel.setOnClickListener(view -> {
-            if (isButtonActive) { // revisar*****
-                cancelarEspera();
-            } else {
-                mostrarNoSeleccionado();
-            }
+    }
 
+    private void actionsCancelar() {
+        btnCancelar1.setOnClickListener(view -> {
+            eventoCancelar(btnMesa1, 1);
         });
+
+        btnCancelar2.setOnClickListener(view -> {
+            eventoCancelar(btnMesa2, 2);
+        });
+        btnCancelar3.setOnClickListener(view -> {
+            eventoCancelar(btnMesa3, 3);
+        });
+
+        btnCancelar4.setOnClickListener(view -> {
+            eventoCancelar(btnMesa4, 4);
+        });
+
+        btnCancelar5.setOnClickListener(view -> {
+            eventoCancelar(btnMesa5, 5);
+        });
+
+        btnCancelar6.setOnClickListener(view -> {
+            eventoCancelar(btnMesa6, 6);
+        });
+
+        btnCancelar7.setOnClickListener(view -> {
+            eventoCancelar(btnMesa7, 7);
+        });
+
+        btnCancelar8.setOnClickListener(view -> {
+            eventoCancelar(btnMesa8, 8);
+        });
+
+    }
+    private void eventoCancelar(Button btn, Integer number) {
+        System.out.println("Aqui estoy");
+        if (!btn.isEnabled()) { // revisar*****
+            cancelarEspera(btn,number);
+        } else {
+            mostrarNoSeleccionado();
+        }
     }
 
     // Cambiar estado de un botón al ser presionado
     private void setState(Button btn, Integer number) {
-        // Valida si existe una mesa seleccionada, para que no seleccione dos a la vez
-        //if (!isButtonActive) {
-            if (btn.isEnabled()) {
-                agregarMesaCola(btn,number);
-            } else {
-                btn.setBackgroundResource(R.drawable.circle_green);
-                btn.setEnabled(true);
-            }
-        //}
+        if (btn.isEnabled()) {
+            agregarMesaCola(btn,number);
+        } else {
+            btn.setBackgroundResource(R.drawable.circle_green);
+            btn.setEnabled(true);
+        }
     }
 
     private void agregarMesaCola(Button btn,Integer numero) {
@@ -168,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
             cola.add(mesa);
             btn.setEnabled(false);
             btn.setBackgroundResource(R.drawable.circle_gray);
-            //isButtonActive = true;
-            btnSelected = btn;
             mostrarAlerta(numero);
         }
         else{
@@ -211,19 +244,18 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void cancelarEspera() {
+    private void cancelarEspera(Button btn,Integer numero) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        AlertDialog dialog = builder.setTitle("Se cancelará su mesa")
+        AlertDialog dialog = builder.setTitle("Se cancelará su mesa "+numero)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Quita el boton seleccionado
-                        if (btnSelected != null) {
-                            btnSelected.setEnabled(true);
-                            btnSelected.setBackgroundResource(R.drawable.circle_green);
-                            adapter.notifyDataSetChanged();
-                        }
-                        //isButtonActive = false;
+                        Mesa mesaSelected = new Mesa(numero,false);
+                        btn.setEnabled(true);
+                        btn.setBackgroundResource(R.drawable.circle_green);
+                        cola.remove(mesaSelected);
+                        adapter.notifyDataSetChanged();
                         dialogInterface.dismiss();
                     }
                 })
@@ -233,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
                         dialogInterface.dismiss();
                     }
                 }).create();
-
         dialog.show();
     }
 
@@ -256,21 +287,10 @@ public class MainActivity extends AppCompatActivity {
             // obtener boton de la besa por atender
             Mesa m = cola.remove((int) numero);
             cola.remove(m);
-
             Button button = botones.get(m.getNumero() - 1);
             button.setEnabled(true);
             button.setBackgroundResource(R.drawable.circle_green);
-
             adapter.notifyDataSetChanged();
-            //isButtonActive = button.getId() == btnSelected.getId() ? false : true;
         }
     }
-
-    private void agregarMesas() {
-        cola.add(new Mesa(6, false));
-        // mesas.add(new Mesa(2,false));
-        // mesas.add(new Mesa(3,false));
-        // mesas.add(new Mesa(4,false));
-    }
-
 }
